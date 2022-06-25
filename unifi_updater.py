@@ -3,6 +3,9 @@ import requests
 import json
 import os
 
+# Disable SSL Warnings
+requests.packages.urllib3.disable_warnings()
+
 with open('config.json') as f:
    config = json.load(f)
 unifiBasePath = 'https://localhost:8443'
@@ -24,3 +27,5 @@ if (loginReq.json()['meta']['rc'] == 'ok'):
         os.system("wget -O "+unifiDebFile+" " + updateDetails['download_link'])
         os.system("sudo DEBIAN_FRONTEND=noninteractive dpkg -i " + unifiDebFile)
         print("Upgraded Unifi Controller to Version " + updateDetails['latest'] + " successfully!")
+    else:
+        print("No update available!");
