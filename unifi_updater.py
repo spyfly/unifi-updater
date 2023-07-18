@@ -24,8 +24,12 @@ if (loginReq.json()['meta']['rc'] == 'ok'):
     if updateDetails['has_upgradable_controller']:
         print("Upgrade to Version " + updateDetails['latest'] + " available!")
         unifiDebFile = "unifi_controller_" + updateDetails['latest'] + ".deb"
+        print("Downloading new Unifi Controller")
         os.system("wget -O "+unifiDebFile+" " + updateDetails['download_link'])
+        print("Installing new Unifi Controller")
         os.system("sudo DEBIAN_FRONTEND=noninteractive dpkg -i " + unifiDebFile)
+        print("Fixing possibly broken packages")
+        os.system("sudo apt install --fix-broken -y")
         print("Upgraded Unifi Controller to Version " + updateDetails['latest'] + " successfully!")
     else:
         print("No update available!");
